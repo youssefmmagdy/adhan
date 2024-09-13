@@ -12,28 +12,42 @@ class PrayerTimesCard extends StatefulWidget {
 class _PrayerTimesCardState extends State<PrayerTimesCard> {
   String? nextPrayer;
 
+  @override
+  void initState() {
+    super.initState();
+    getNextPrayer();
+  }
+
   void getNextPrayer() {
     final now = DateTime.now();
     now.add(const Duration(hours: 3));
     int min = 9999999;
 
-    final prayerTimes = widget.prayerTimes.entries.map((entry) {
+    widget.prayerTimes.entries.map((entry) {
       final time = entry.value.split(':');
       final hours = int.parse(time[0]);
       final minutes = int.parse(time[1]);
+      
+      if (min > ((hours - now.hour) * 60 + (minutes - now.minute)) &&
+          ((hours - now.hour) > 0 ||((hours == now.hour) && (minutes - now.minute) >= 0))) {
+        
+        setState(() {
+          min = (hours - now.hour) * 60 + (minutes - now.minute);
+          nextPrayer = entry.key;
+        });
 
-      if (min > (hours - now.hour) * 60 + (minutes - now.minute) &&
-          (hours - now.hour) * 60 + (minutes - now.minute) > 0) {
-        min = (hours - now.hour) * 60 + (minutes - now.minute);
-        nextPrayer = entry.key;
       }
     }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    getNextPrayer();
-    print("next is $nextPrayer");
+    
+    
+    if(nextPrayer == null){
+      nextPrayer = "Fajr";
+    }
+    
     return Card(
       elevation: 5,
       color: Colors.white.withOpacity(0.2),
@@ -88,13 +102,7 @@ class _PrayerTimesCardState extends State<PrayerTimesCard> {
                                 ? FontWeight.bold
                                 : FontWeight.normal),
                       ),
-                      // Text(
-                      //   entry.key=="shurouq"?"الشروق":entry.key=="fajr"?"الفجر":entry.key=="dhuhr"?"الظهر":entry.key=="asr"?"العصر":entry.key=="maghrib"?"المغرب":"العشاء",
-                      //   style: TextStyle(
-                      //     fontSize: 18,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
+                      
                     ],
                   ),
                 ),

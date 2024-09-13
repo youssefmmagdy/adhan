@@ -18,7 +18,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 Future<void> requestAndroidPermission() async {
@@ -43,12 +42,7 @@ void main() async {
     onDidReceiveBackgroundNotificationResponse: onTap,
   );
 
-  
-
-  
   requestAndroidPermission();
-
-   
 
   runApp(const MyApp());
 }
@@ -89,23 +83,15 @@ void showSchduledNotification(int id, String time) async {
       tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
 
   // If the scheduled time is in the past, adjust to the next day
-  // if (scheduledTime.isBefore(now)) {
-  //   scheduledTime = scheduledTime.add(const Duration(days: 1));
-  // }
+  if (scheduledTime.isBefore(now)) {
+    scheduledTime = scheduledTime.add(const Duration(days: 1));
+  }
   print("Scheduled is: $scheduledTime");
   await flutterLocalNotificationsPlugin.zonedSchedule(
     id,
     'Schduled Notification',
     'body',
     scheduledTime,
-    // tz.TZDateTime(
-    //   tz.local,
-    //   2024,
-    //   2,
-    //   10,
-    //   21,
-    //   30,
-    // ),
     details,
     payload: 'zonedSchedule',
     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
@@ -198,7 +184,6 @@ class _MyAppState extends State<MyApp> {
       _address = format(_address!);
     });
 
-    
     final selectedDate = _selectedDate.add(const Duration(days: 0));
 
     String day = _selectedDate.day.toString(),
@@ -230,7 +215,6 @@ class _MyAppState extends State<MyApp> {
       longitude: lng,
     );
 
-    
     setState(() {
       _selectedDate = selectedDate;
       _fajr = fajr;
@@ -245,21 +229,18 @@ class _MyAppState extends State<MyApp> {
       _pickedLocation = pickedLocation;
       _isGettingLocation = false;
     });
-    // _fajr = "19:51";
-    // _zuhr = "19:54";
+    _fajr = "23:49";
+    _zuhr = "23:50";
     // _asr = "16:24";
     // _maghrib = "16:25";
     // _ishaa = "16:26";
 
+    showSchduledNotification(1, _fajr!);
 
-    
-    
-    showSchduledNotification(1,_fajr!);
-
-    showSchduledNotification(2,_zuhr!);
-    showSchduledNotification(3,_asr!);
-    showSchduledNotification(4,_maghrib!);
-    showSchduledNotification(5,_ishaa!);
+    showSchduledNotification(2, _zuhr!);
+    showSchduledNotification(3, _asr!);
+    showSchduledNotification(4, _maghrib!);
+    showSchduledNotification(5, _ishaa!);
   }
 
   static AudioPlayer audioPlayer = AudioPlayer();
@@ -394,8 +375,8 @@ class _MyAppState extends State<MyApp> {
 
             PrayerTimesCard(
               prayerTimes: {
-                "Shurouq": _shurouq!,
                 'Fajr': _fajr!,
+                "Shurouq": _shurouq!,
                 'Dhuhr': _zuhr!,
                 'Asr': _asr!,
                 'Maghrib': _maghrib!,
