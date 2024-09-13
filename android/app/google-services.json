@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "864646106342",
+    "firebase_url": "https://azan-e10a5-default-rtdb.firebaseio.com",
+    "project_id": "azan-e10a5",
+    "storage_bucket": "azan-e10a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864646106342:android:764df2a7b217aed2a83f27",
+        "android_client_info": {
+          "package_name": "com.example.adhan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_pvpuc9zAP1rxTW11pGtNQEEwCxHG4IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864646106342:android:1803f8ebbe42f2efa83f27",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_pvpuc9zAP1rxTW11pGtNQEEwCxHG4IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864646106342:android:e49788f8f2badb37a83f27",
+        "android_client_info": {
+          "package_name": "com.example.azan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_pvpuc9zAP1rxTW11pGtNQEEwCxHG4IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
