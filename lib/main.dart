@@ -101,7 +101,9 @@ void showSchduledNotification(int id, DateTime dateTime) async {
     'id 3',
     importance: Importance.max,
     priority: Priority.high,
-    sound: RawResourceAndroidNotificationSound("azan"),
+    sound: null,
+    ongoing: true,
+    
   );
   NotificationDetails details = const NotificationDetails(
     android: android,
@@ -117,15 +119,16 @@ void showSchduledNotification(int id, DateTime dateTime) async {
   tz.TZDateTime scheduledTime = tz.TZDateTime(tz.local, dateTime.year,
       dateTime.month, dateTime.day, dateTime.hour, dateTime.minute);
 
+  print("scheduledTime Before: $scheduledTime");
   // If the scheduled time is in the past, adjust to the next day
   if (scheduledTime.isBefore(now)) {
     scheduledTime = scheduledTime.add(const Duration(days: 1));
   }
-  
+  print("scheduledTime Next: $scheduledTime");
   await flutterLocalNotificationsPlugin.zonedSchedule(
     id,
-    'Schduled Notification',
-    'body',
+    'Adhan',
+    "It's time for prayer",
     scheduledTime,
     details,
     payload: 'zonedSchedule',
@@ -393,11 +396,11 @@ class _MyAppState extends State<MyApp> {
         return;
       }
       final responseData = json.decode(response.body);
-      final fajr = responseData['data']["timings"]['Fajr'];
-      final dhuhr = responseData['data']["timings"]['Dhuhr'];
+      var fajr = responseData['data']["timings"]['Fajr'];
+      var dhuhr = responseData['data']["timings"]['Dhuhr'];
       final asr = responseData['data']["timings"]['Asr'];
       final maghrib = responseData['data']["timings"]['Maghrib'];
-      final isha = responseData['data']["timings"]['Isha'];
+      var isha = responseData['data']["timings"]['Isha'];
       final sunrise = responseData['data']["timings"]['Sunrise'];
       final hijriDate = responseData['data']["date"]["hijri"]["day"] +
           " " +
@@ -443,18 +446,19 @@ class _MyAppState extends State<MyApp> {
 
       maps.add(map);
 
-      DateTime now = DateTime.now();
-
+      
+      
+      
       String time = fajr;
       List<String> timeParts = time.split(':');
       int hour = int.parse(timeParts[0]);
       int minute = int.parse(timeParts[1]);
-
       showSchduledNotification(
           x,
           DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
               hour, minute));
       time = dhuhr;
+      
       timeParts = time.split(':');
       hour = int.parse(timeParts[0]);
       minute = int.parse(timeParts[1]);
@@ -478,6 +482,7 @@ class _MyAppState extends State<MyApp> {
           x + 3,
           DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
               hour, minute));
+      isha = "23:15";
       time = isha;
       timeParts = time.split(':');
       hour = int.parse(timeParts[0]);
@@ -545,7 +550,7 @@ class _MyAppState extends State<MyApp> {
       _dhuhr = maps1[0]["dhuhr"].toString();
       _asr = maps1[0]["asr"].toString();
       _maghrib = maps1[0]["maghrib"].toString();
-      _isha = maps1[0]["isha"].toString();
+      _isha = "23:15";
       _sunrise = maps1[0]["sunrise"].toString();
       _hijriDate = maps1[0]["hijriDate"].toString();
       _todayDate = maps1[0]["todayDate"].toString();
@@ -557,7 +562,7 @@ class _MyAppState extends State<MyApp> {
       );
       _wierdDate = maps1[0]["wierdDate"].toString();
       _nextPrayer = getNextPrayer(_fajr!, _dhuhr!, _asr!, _maghrib!, _isha!);
-      _nextPrayer = _nextPrayer ?? "Fajr";
+      _nextPrayer = (_nextPrayer == '' || _nextPrayer == null) ? "Fajr" : _nextPrayer;
       _address = maps1[0]["address"].toString();
       _dir = double.parse(maps1[0]["compass"].toString());
       _isGettingLocation = false;
@@ -571,7 +576,6 @@ class _MyAppState extends State<MyApp> {
     final data = await db.query("prayer_maps");
 
     if (data.isEmpty) {
-      
       _getCurrentLocation();
     } else {
       loadPrayerTimes();
