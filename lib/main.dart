@@ -482,7 +482,7 @@ class _MyAppState extends State<MyApp> {
           x + 3,
           DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
               hour, minute));
-      isha = "23:15";
+      
       time = isha;
       timeParts = time.split(':');
       hour = int.parse(timeParts[0]);
@@ -550,7 +550,7 @@ class _MyAppState extends State<MyApp> {
       _dhuhr = maps1[0]["dhuhr"].toString();
       _asr = maps1[0]["asr"].toString();
       _maghrib = maps1[0]["maghrib"].toString();
-      _isha = "23:15";
+      _isha = maps1[0]["isha"].toString();
       _sunrise = maps1[0]["sunrise"].toString();
       _hijriDate = maps1[0]["hijriDate"].toString();
       _todayDate = maps1[0]["todayDate"].toString();
