@@ -345,7 +345,7 @@ class _MyAppState extends State<MyApp> {
     }
     var y = 1;
     for (var i = 0; i < 30; i++) {
-      
+      print("canceling $y");
       cancelNotification(y);
       cancelNotification(y + 1);
       cancelNotification(y + 2);
@@ -557,7 +557,7 @@ class _MyAppState extends State<MyApp> {
       );
       _wierdDate = maps1[0]["wierdDate"].toString();
       _nextPrayer = getNextPrayer(_fajr!, _dhuhr!, _asr!, _maghrib!, _isha!);
-      _nextPrayer ??= "Fajr";
+      _nextPrayer = _nextPrayer ?? "Fajr";
       _address = maps1[0]["address"].toString();
       _dir = double.parse(maps1[0]["compass"].toString());
       _isGettingLocation = false;
