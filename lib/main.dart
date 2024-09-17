@@ -121,7 +121,7 @@ void showSchduledNotification(int id, DateTime dateTime) async {
   if (scheduledTime.isBefore(now)) {
     scheduledTime = scheduledTime.add(const Duration(days: 1));
   }
-  print("Scheduled is: $scheduledTime");
+  
   await flutterLocalNotificationsPlugin.zonedSchedule(
     id,
     'Schduled Notification',
@@ -233,7 +233,7 @@ class _MyAppState extends State<MyApp> {
       });
     } on SocketException {
       // Handle network error
-      print('No internet connection.');
+      
       setState(() {
         _error = 'No internet connection... Please open Internet Connection';
         _isGettingLocation = false;
@@ -248,7 +248,7 @@ class _MyAppState extends State<MyApp> {
       return;
     } catch (e) {
       // Handle other types of exceptions
-      print('An error occurred: $e');
+      
       setState(() {
         _error = 'An error occurred: $e';
         errors.add(Text(_error!));
@@ -262,23 +262,20 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _getCurrentLocation() async {
-    print("getting location");
+    
     setState(() {
       _isGettingLocation = true;
     });
     final db = await _getDatabase();
     final tempMaps = await db.query("prayer_maps");
-    print("here4");
+    
     List<double?>? location;
     try {
       NumberGenerator numberGenerator = NumberGenerator();
       location = await numberGenerator.generateNumbers();
-    } catch (e) {
-      
-    }
-    
+    } catch (e) {}
+
     if (location == null) {
-    
       if (tempMaps.isEmpty) {
         setState(() {
           _isGettingLocation = false;
@@ -294,9 +291,8 @@ class _MyAppState extends State<MyApp> {
       return;
     }
     final lat = location[0], lng = location[1];
-    
+
     if (lat == null || lng == null) {
-      
       if (tempMaps.isEmpty) {
         setState(() {
           _isGettingLocation = false;
@@ -310,7 +306,7 @@ class _MyAppState extends State<MyApp> {
       loadPrayerTimes();
       return;
     }
-    
+
     _getCompass(lat, lng, tempMaps.isNotEmpty);
 
     final url1 = Uri.parse(
@@ -318,12 +314,12 @@ class _MyAppState extends State<MyApp> {
     try {
       final response1 = await http.get(url1);
       if (response1.statusCode != 200) {
-        print("entered 6");
+        
         _error = "";
         loadPrayerTimes();
         return;
       }
-      print("entered 7");
+      
       final responseData1 = json.decode(response1.body);
       setState(() {
         _address = responseData1['results'][0]['formatted_address'];
@@ -349,7 +345,7 @@ class _MyAppState extends State<MyApp> {
     }
     var y = 1;
     for (var i = 0; i < 30; i++) {
-      print("Cancelling $y");
+      
       cancelNotification(y);
       cancelNotification(y + 1);
       cancelNotification(y + 2);
@@ -375,7 +371,7 @@ class _MyAppState extends State<MyApp> {
         response = await http.get(url);
       } on SocketException {
         // Handle network error
-        print('No internet connection.');
+        
         setState(() {
           _error = 'No internet connection... Please open Internet Connection';
           _isGettingLocation = false;
@@ -389,7 +385,7 @@ class _MyAppState extends State<MyApp> {
         return;
       } catch (e) {
         // Handle other types of exceptions
-        print('An error occurred: $e');
+        
         setState(() {
           _error = 'An error occurred: $e';
           _content = Center(child: Text(_error!));
@@ -512,7 +508,7 @@ class _MyAppState extends State<MyApp> {
       });
       return;
     }
-    print("tmp is " + tmp.toString());
+    
     final maps1 = await db.query(
       "prayer_maps",
       where: "todayDate = ?",
@@ -574,10 +570,8 @@ class _MyAppState extends State<MyApp> {
 
     final data = await db.query("prayer_maps");
 
-    print("data is$data");
-
     if (data.isEmpty) {
-      print("getting location");
+      
       _getCurrentLocation();
     } else {
       loadPrayerTimes();
@@ -587,7 +581,7 @@ class _MyAppState extends State<MyApp> {
   List<Widget> errors = [];
   @override
   Widget build(BuildContext context) {
-    print("errors are " + errors.length.toString());
+    
     if (_isGettingLocation) {
       _content = const Center(child: CircularProgressIndicator());
     } else if (_pickedLocation != null) {
@@ -731,6 +725,8 @@ class _MyAppState extends State<MyApp> {
     }
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // Remove the debug banner
+
       title: 'Azan',
       home: Stack(
         children: [
