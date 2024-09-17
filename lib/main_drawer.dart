@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
     super.key,
-    required this.lat,
-    required this.lng,
     required this.setIndex,
   });
 
-  final double lat;
-  final double lng;
   final void Function(int x) setIndex;
 
   @override

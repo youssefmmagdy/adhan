@@ -13,6 +13,7 @@ import flutter_local_notifications
 import flutter_timezone
 import location
 import path_provider_foundation
+import sqflite
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   AudioplayersDarwinPlugin.register(with: registry.registrar(forPlugin: "AudioplayersDarwinPlugin"))
@@ -23,4 +24,5 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FlutterTimezonePlugin.register(with: registry.registrar(forPlugin: "FlutterTimezonePlugin"))
   LocationPlugin.register(with: registry.registrar(forPlugin: "LocationPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
+  SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
 }
