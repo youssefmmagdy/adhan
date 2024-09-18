@@ -101,7 +101,7 @@ void showSchduledNotification(int id, DateTime dateTime) async {
     'id 3',
     importance: Importance.max,
     priority: Priority.high,
-    sound: null,
+    sound: RawResourceAndroidNotificationSound("azan"),
     ongoing: true,
     
   );
